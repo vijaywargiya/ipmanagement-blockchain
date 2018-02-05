@@ -3,7 +3,7 @@ from uuid import uuid4
 
 from flask import jsonify, request, Flask
 
-from app.blockchain import Blockchain
+from blockchain.blockchain import Blockchain
 
 node_identifier = str(uuid4()).replace('-', '')
 
@@ -24,7 +24,7 @@ def mine():
     blockchain.new_transaction(
         sender="0",
         recipient=node_identifier,
-        amount=1,
+        token=1,
     )
 
     # Forge the new Block by adding it to the chain

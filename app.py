@@ -1,5 +1,4 @@
-
-from app.routes import app
+from blockchain.routes import app
 
 
 if __name__ == '__main__':
@@ -10,6 +9,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     port = args.port
 
-    app.run(host='0.0.0.0', port=10001)
+    app.run(host='127.0.0.1', port=10001)
 
 
