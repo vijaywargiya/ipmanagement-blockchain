@@ -8,5 +8,3 @@ flask_migrate
 flask_sqlalchemy
 flask_restful
 werkzeug
-waitress
-requests

@@ -12,7 +12,6 @@ python_version = "3.6"
 
 flask = "==0.12.2"
 requests = "==2.18.4"
-requests = "==2.18.4"
 flask_wtf = "==0.14.2"
 wtforms = "==2.1"
 argon2 = "==0.1.10"
@@ -21,5 +20,4 @@ flask_migrate = "==2.1.1"
 flask_sqlalchemy = "==2.3.2"
 flask_restful = "==0.3.6"
 werkzeug = "==0.14.1"
-requests = "==2.18.4"
 
