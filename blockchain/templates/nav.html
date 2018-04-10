@@ -1,0 +1,139 @@
+<!doctype html>
+<!--
+ --------------------------------------- START OF LICENSE NOTICE ------------------------------------------------------
+ Copyright (c) 2017 Software Robotics Corporation Limited ("Soroco"). All rights reserved.
+ NO WARRANTY. THE PRODUCT IS PROVIDED BY SOROCO "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ SHALL SOROCO BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE PRODUCT, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+ DAMAGE.
+ ---------------------------------------- END OF LICENSE NOTICE -------------------------------------------------------
+
+ Primary Author: Shivam Vijaywargiya <shivam.vijaywargiya@soroco.com>
+
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IP Manager</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Favicons
+        ================================================== -->
+    <!--<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+
+    <!-- Bootstrap -->
+    <link href="/static/css/pace.css" rel="stylesheet">
+    <script src="/static/js/pace.js"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/bootstrap-grid.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/bootstrap-reboot.css" type="text/css">
+    <link href="/static/css/vendor/daterangepicker.css" rel="stylesheet">
+    <link href="/static/css/vendor/dc.css" rel="stylesheet">
+    <link href="/static/css/vendor/font-awesome.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/static/css/vendor/rickshaw.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/vendor/jquery-ui-1.11.4.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/vendor/dc.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/rickshaw-custom.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/dc-custom.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/editor.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/table-custom.css" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/font-awesome/css/font-awesome.css') }}"
+          type="text/css">
+
+    <!-- Stylesheet
+        ================================================== -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/prettyPhoto.css') }}" type="text/css">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='http://fonts.googleapis.com/css?family=Lato:400,700,900,300') }}"
+          type="text/css">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800,600,300') }}"
+          type="text/css">
+    <script src="{{ url_for('static', filename='js/modernizr.custom.js') }}"></script>
+     <script src="/static/js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="/static/js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="/static/js/vendor/jquery-ui-1.11.4.min.js"></script>
+    <!--<script src="/static/js/bootstrap.js"></script>-->
+    <script src="/static/js/bootstrap.bundle.js"></script>
+    <script src="/static/js/vendor/moment.min.js"></script>
+    <script src="/static/js/vendor/daterangepicker.js"></script>
+    <!--<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>-->
+
+    <script src="/static/js/vendor/d3.min.js"></script>
+    <script src="/static/js/vendor/rickshaw.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+    <![endif]-->
+    <script src="{{ url_for('static', filename='js/jquery.1.11.1.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/SmoothScroll.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/easypiechart.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.prettyPhoto.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.isotope.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.counterup.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/waypoints.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jqBootstrapValidation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/contact_me.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+     <script src="/static/js/vendor/crossfilter.js"></script>
+    <script src="/static/js/vendor/dc.js"></script>
+    <script src="/static/js/base.js"></script>
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/graph.js"></script>
+    <script src="/static/js/table.js"></script>
+    <script src="/static/js/dimensionalchart.js"></script>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/r-2.2.1/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.1/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/r-2.2.1/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.js"></script>
+</head>
+<body>
+{% set messages = get_flashed_messages() %}
+<meta id="messages" data-name="{{messages}}" data-other="{{other}}">
+
+{% block content %}{% endblock %}
+<div id="footer">
+    <div class="container text-center">
+        <div class="fnav">
+            <p>Final Year Project Created by <a href="http://www.templatewire.com" rel="nofollow">Shivam
+                Vijaywargiya</a></p>
+        </div>
+    </div>
+</div>
+<script>
+var messages = $('#messages').data();
+messages = messages['name'];
+var arrayLength = messages.length;
+text = ''
+for (var i = 0; i < arrayLength; i++) {
+    text += messages[i]
+}
+if (text != ''){
+alert(text)}
+
+</script>
+
+</body>
+</html>

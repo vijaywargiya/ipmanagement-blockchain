@@ -7,6 +7,8 @@ from urllib.parse import urlparse
 from uuid import uuid4, uuid5
 
 import requests
+from argon2 import PasswordHasher
+from copy import deepcopy
 from flask import Flask, jsonify, request
 
 
@@ -34,7 +36,6 @@ class Blockchain:
             self.nodes.add(parsed_url.path)
         else:
             raise ValueError('Invalid URL')
-
 
     def valid_chain(self, chain):
         """
@@ -91,7 +92,7 @@ class Blockchain:
                 if length > max_length and self.valid_chain(chain):
                     max_length = length
                     new_chain = chain
-        
+
         # Replace our chain if we discovered a new, valid chain longer than ours
         if new_chain:
             self.chain = new_chain
@@ -141,7 +142,6 @@ class Blockchain:
             return self.last_block['index'] + 1
 
         return verify
-
 
     def find_path(self, token):
         path = []
@@ -227,13 +227,39 @@ class Blockchain:
 
         """
 
-        guess = '{}{}{}'.format({last_proof},{proof},{last_hash}).encode()
+        guess = '{}{}{}'.format({last_proof}, {proof}, {last_hash}).encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == "0000"
 
-    def add_property(self, property, owner):
-        print(type(uuid4()))
-        key = str(uuid5(uuid.UUID(owner), property)).replace('-', '')
-        self.new_transaction("admin", owner, key)
+    def add_property(self, property, owner_hash):
+        uuuuid = uuid.uuid5(uuid.NAMESPACE_DNS, property)
+        key = str(uuid5(uuuuid, owner_hash))
+        self.new_transaction("admin", owner_hash, key)
         return key
 
+    def get_properties(self, user_hash):
+        unique_tokens = []
+        user_properties = []
+        for block in self.chain:
+            for transaction in block['transactions']:
+                if transaction['token'] not in unique_tokens:
+                    unique_tokens.append(transaction['token'])
+        for token in unique_tokens:
+            if self.verify_token(user_hash, token) == 'Found':
+                user_properties.append(token)
+
+        return user_properties
+
+    def get_transactions(self, user_hash):
+        user_transactions = []
+        for block in self.chain:
+            for transaction in block['transactions']:
+                if transaction['sender'] == user_hash:
+                    temp_transaction = deepcopy(transaction)
+                    temp_transaction['sender'] = 'self'
+                    user_transactions.append(temp_transaction)
+                elif transaction['recipient'] == user_hash:
+                    temp_transaction = deepcopy(transaction)
+                    temp_transaction['recipient'] = 'self'
+                    user_transactions.append(temp_transaction)
+        return user_transactions

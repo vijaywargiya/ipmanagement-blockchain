@@ -1,0 +1,85 @@
+#reset{
+    float:right;
+    margin: 2%;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.dropdrop {
+    position: absolute;
+    top:20%;
+    transform: translateY(-80%);
+}
+
+
+.dropdrop dd,
+.dropdrop dt {
+    margin: 0px;
+    padding: 0px;
+}
+
+.dropdrop ul {
+    margin: -1px 0 0 0;
+}
+
+.dropdrop dd {
+    position: relative;
+}
+
+.dropdrop a{
+    color: #fff;
+    text-decoration: none;
+    outline: none;
+    font-size: 15px;
+}
+
+.dropdrop dt a {
+    background-color: #eeeeee;
+    display: block;
+    padding: 15px 20px 5px 10px;
+    min-height: 25px;
+    line-height: 24px;
+    overflow: hidden;
+    border: 0;
+    color:#616161 ;
+    width: 250px;
+}
+
+.dropdrop dt a span,
+.multiSel span {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.dropdrop dd ul {
+    background-color: #eeeeee;
+    border: 0;
+    color: #fff;
+    display: none;
+    left: 0px;
+    padding: 5px 0px 5px 0px;
+    position: absolute;
+    top: 2px;
+    list-style: none;
+    height: auto;
+    overflow: auto;
+    width: 250px;
+}
+
+.dropdrop li{
+    margin:2%;
+    padding:5%;
+}
+
+.dropdrop span.value {
+    display: none;
+}
+
+.dropdrop dd ul li a {
+    display: block;
+}
+
+.dropdrop dd ul li a:hover {
+    cursor:pointer;
+}
+

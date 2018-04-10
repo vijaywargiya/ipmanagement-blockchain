@@ -1,0 +1,65 @@
+/*!
+ * --------------------------------------- START OF LICENSE NOTICE ------------------------------------------------------
+ * Copyright (c) 2015 Software Robotics Corporation Limited ("Soroco"). All rights reserved.
+ *
+ * NO WARRANTY. THE PRODUCT IS PROVIDED BY SOROCO "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL SOROCO BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE PRODUCT, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE.
+ * ---------------------------------------- END OF LICENSE NOTICE -------------------------------------------------------
+ *
+ *   Primary Author: Nishant Jain <nishant@soroco.com>
+ *
+ *   Purpose: This file defines the custom css for rickshaw graphs
+ */
+
+.rotate {
+-webkit-transform: rotate(-90deg);
+-moz-transform: rotate(-90deg);
+-ms-transform: rotate(-90deg);
+-o-transform: rotate(-90deg);
+transform: rotate(-90deg);
+display: block;
+white-space: nowrap;
+}
+
+.rickshaw_graph .x_tick .title {
+opacity: 1 !important;
+position: relative !important;
+color: #646464;
+top: 185px;
+left: -15px;
+}
+
+.rickshaw_graph .y_ticks {
+left: 0;
+}
+
+.rickshaw_graph {
+position: relative;
+left: 30px;
+}
+
+.rickshaw_yaxis {
+position: relative;
+bottom: 0;
+top: 90px;
+left: 0px;
+width: 30px;
+text-align: center;
+font-size: 13px;
+}
+
+.rickshaw_xaxis {
+position: relative;
+bottom: 0;
+top: 20px;
+left: 300px;
+width: 25px;
+display: inline-block;
+white-space: nowrap;
+font-size: 13px;
+}

@@ -1,0 +1,29 @@
+{% extends "logged_in_nav.html" %}
+{% block content %}
+
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">New Transaction</div>
+      <div class="card-body">
+       <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.property_name.label }}<br>
+            {{ form.property_name(size=32) }}<br>
+            {% for error in form.property_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.property_details.label }}<br>
+            {{ form.property_details(size=32) }}<br>
+            {% for error in form.property_details.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

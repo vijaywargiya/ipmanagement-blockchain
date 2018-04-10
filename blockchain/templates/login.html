@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>SB Admin - Start Bootstrap Template</title>
+  <!-- Bootstrap core CSS-->
+   <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css" type="text/css">
+   <link rel="stylesheet" href="/static/vendor/font-awesome/css/font-awesome.min.css" type="text/css">
+   <link rel="stylesheet" href="/static/css/sb-admin.css" type="text/css">
+</head>
+
+<body class="bg-dark">
+{% set messages = get_flashed_messages() %}
+<meta id="my-data" data-name="{{messages}}" data-other="{{other}}">
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">Login</div>
+      <div class="card-body">
+       <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}<br>
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+       <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+        <div class="text-center">
+          <a class="d-block small mt-3" href="/register">Register an Account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap core JavaScript-->
+
+  <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+  <script>
+var messages = $('#my-data').data();
+messages = messages['name'];
+var arrayLength = messages.length;
+text = ''
+for (var i = 0; i < arrayLength; i++) {
+    text += messages[i]
+}
+console.log(text)
+if (text != ''){
+alert(text)}
+</script>
+</body>
+
+</html>
+ <!--<h1>Login</h1>-->

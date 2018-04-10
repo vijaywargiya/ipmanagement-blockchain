@@ -1,0 +1,27 @@
+a  {
+    color: #337ab7;
+}
+
+label, input, textarea, select {
+    font-family: 'Roboto', sans-serif;
+}
+
+.form-horizontal label {
+    text-transform: uppercase;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    border: none;
+    box-shadow: none;
+    border-bottom: 1px solid #CCC;
+    border-radius: 0;
+}
+
+.form-control:focus{
+    outline: none;
+    box-shadow: none;
+}

@@ -1,0 +1,53 @@
+{% extends "logged_in_nav.html" %}
+{% block content %}
+<meta id="my-data" data-name="{{data}}" data-other="{{other}}">
+<div id="det"><h4 style="margin-top:30px; margin-bottom:30px;">User Details</h4>
+    <table id="usertable" class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+
+        </tr>
+        </thead>
+        <tbody id="TableBody2"></tbody>
+    </table>
+</div>
+
+<script>
+var messages = $('#my-data').data();
+data = messages['name'];
+console.log(data);
+ var dimensionalchart = new SRC.Table({
+            div: "usertable",
+            data_handler: function(){return data;},
+            columnDefs: [{
+                targets: 0,
+                data: function (d) {
+                    console.log(d);
+                   return d['id'];
+                    },
+                }, {
+                    targets: 1,
+                    data: function (d) {
+                        return d['username'];
+                    },
+                }, {
+                    targets: 2,
+                    data: function (d) {
+                        return d['email'];
+                    },
+                },{
+                    targets: 3,
+                    data: function (d) {
+                        return d['role'];
+                    },
+                },
+            ], refreshFreq: 600000,
+
+            });
+$.fn.dataTable.ext.errMode = 'none';
+</script>
+{% endblock %}
