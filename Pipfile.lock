@@ -57,6 +57,16 @@
             ],
             "version": "==0.12.2"
         },
+        "flask_wtf"
+        ,"wtforms"
+        ,"argon2"
+        ,"flask_login"
+        ,"flask_migrate"
+        ,"flask_sqlalchemy"
+        ,"flask_restful"
+        ,"werkzeug"
+        ,"waitress"
+        ,
         "idna": {
             "hashes": [
                 "sha256:8c7309c718f94b3a625cb648ace320157ad16ff131ae0af362c9f21b80ef6ec4",

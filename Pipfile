@@ -12,4 +12,16 @@ python_version = "3.6"
 
 flask = "==0.12.2"
 requests = "==2.18.4"
+flask "==0.12.2"
+requests "==2.18.4"
+flask_wtf
+wtforms
+argon2
+flask_login
+flask_migrate
+flask_sqlalchemy
+flask_restful
+werkzeug
+waitress
+requests
 
