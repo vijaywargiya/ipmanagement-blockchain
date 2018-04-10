@@ -21,16 +21,14 @@ from blockchain.api.config import Config
 from blockchain.routes import app
 
 
-
 def main():
     app.secret_key = 'super secret key'
     app.config['SESSION_TYPE'] = 'filesystem'
     app.debug = True
-    serve(app, host='127.0.0.1',port='7777')
+    serve(app)
+
 
 from blockchain.api import models
 
-
 if __name__ == "__main__":
-    # main()
-    app.run()
+    main()
