@@ -1,7 +1,7 @@
 {% extends "logged_in_nav.html" %}
 {% block content %}
 <meta id="my-data" data-name="{{data}}" data-other="{{other}}">
-<div id="det"><h4 style="margin-top:30px; margin-bottom:30px;">User Details</h4>
+<div id="det"><h4 style="margin-top:30px; margin-bottom:30px;">User Transactions</h4>
     <table id="user_transactions_table" class="table table-bordered">
         <thead>
         <tr>
@@ -25,7 +25,7 @@ console.log(data);
                 targets: 0,
                 data: function (d) {
                     console.log(d);
-                   return d['token'];
+                   return '<a href="/properties/' + d['token'] +'">' + d['token'] + '</a>';
                     },
                 }, {
                     targets: 1,

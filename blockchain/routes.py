@@ -4,6 +4,10 @@ from uuid import uuid4
 import pickle
 
 import os
+
+import time
+
+import datetime
 from flask_login import current_user, login_user, logout_user
 
 from flask import jsonify, request, render_template, flash, url_for, Flask, redirect, json, session
@@ -33,14 +37,25 @@ app.config['SECRET_KEY'] = 'you-will-never-guess'
 app.secret_key = 'some_secret'
 
 
+@app.context_processor
+def inject_info():
+    logged_in_user = LoggedInUser()
+    return dict(logged_in_user=logged_in_user)
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if request.method == 'POST':
-        from blockchain.api.models import User
+        from blockchain.api.models import User, Notifications
         user = User(username=form.username.data, email=form.email.data,
                     password_hash=User.hash_password(form.password.data))
         db.session.add(user)
+        db.session.commit()
+        no = Notifications(user_id=user.id, time=time.time(), headline='Welcome Abord',
+                           text='For any clarifications see help manual at',
+                           read=False)
+        db.session.add(no)
         db.session.commit()
         flash('User Successfully Registered')
         return redirect("/login")
@@ -58,7 +73,8 @@ def users():
     from blockchain.api.models import User
     users = User.query.all()
     if users:
-        users = [{'role': user.role, 'id': user.id, 'username': user.username, 'email': user.email} for user in users]
+        users = [{'password_hash': user.password_hash, 'role': user.role, 'id': user.id, 'username': user.username,
+                  'email': user.email} for user in users]
         users = json.dumps(users)
     return render_template('users.html', data=users)
 
@@ -68,6 +84,13 @@ def user_transactions():
     data = blockchain.get_transactions(current_user.password_hash)
     data = json.dumps(data)
     return render_template('user_transactions.html', data=data)
+
+
+@app.route('/transactions')
+def transactions():
+    data = blockchain.get_transactions()
+    data = json.dumps(data)
+    return render_template('transactions.html', data=data)
 
 
 @app.route('/my_properties_screen')
@@ -81,6 +104,27 @@ def user_properties():
             {'token': property_details.token, 'name': property_details.name, 'details': property_details.body})
     properties = json.dumps(properties)
     return render_template('user_properties.html', data=properties)
+
+
+@app.route('/properties', methods=['POST', 'GET'])
+@app.route('/properties/<string:token>')
+def properties(token: str = ''):
+    from blockchain.api.models import Property
+    if request.method == 'POST':
+        property_details = Property.query.filter(Property.name.contains(request.form['search']))
+        count = [item for item in property_details]
+        if not count:
+            property_details = Property.query.filter(Property.body.contains(request.form['search']))
+    else:
+        if token != '':
+            property_details = Property.query.filter_by(token=token)
+        else:
+            property_details = Property.query.all()
+    data = []
+    for property in property_details:
+        data.append({'id': property.id, 'token': property.token, 'name': property.name, 'body': property.body})
+    data = json.dumps(data)
+    return render_template('properties.html', properties=data)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -147,17 +191,25 @@ def mine():
 def new_transaction_screen():
     form = NewTransactionForm()
     if request.method == 'POST':
-        from blockchain.api.models import User
+        from blockchain.api.models import User, Notifications
         reciever_hash = request.form['reciever']
         token = request.form['token']
         reciever = User.query.filter_by(password_hash=reciever_hash).first()
         if not reciever:
             return render_template("message.html", message='No such reciever found')
-        current_user_id = current_user.id
-        user_hash = load_user(current_user_id).password_hash
+        no = Notifications(user_id=reciever.id, time=str(datetime.datetime.now().strftime("%d/%m/%y %I:%M%p")),
+                           headline='Property Recieved', text=token,
+                           read=False)
+        no2 = Notifications(user_id=current_user.id, time=str(datetime.datetime.now().strftime("%d/%m/%y %I:%M%p")),
+                            headline='Property Transferred', text=token,
+                            read=False)
+        db.session.add(no)
+        db.session.add(no2)
+        db.session.commit()
+        user_hash = current_user.password_hash
         index = blockchain.new_transaction(user_hash, reciever_hash, token)
         response = {'message': 'Transaction will be added to Block {}'.format({index})}
-        return render_template("message.html", message=jsonify(response))
+        return render_template("message.html", message=response)
     return render_template('new_transaction.html', title='New Transaction', form=form)
 
 
@@ -243,4 +295,54 @@ def read():
         with open(pickle_filepath, 'rb') as pickle_handle:
             blockchain.__setattr__('chain', pickle.load(pickle_handle))
 
+
 read()
+
+
+@app.route('/clear_notifications')
+def clear_notifications():
+    LoggedInUser.clear_notifications()
+    next_page = request.args.get('next')
+    if not next_page or url_parse(next_page).netloc != '':
+        next_page = "/"
+    return redirect(next_page)
+
+
+@app.route('/notifications')
+def notifications():
+    logged_in_user = LoggedInUser()
+    notifications = logged_in_user.notifications
+    noti = []
+    for item in notifications:
+        noti.append({'id': item.id, 'headline': item.headline, 'text': item.text, 'time': item.time})
+    data = json.dumps(noti)
+    return render_template('notifications.html',data=data)
+
+
+class LoggedInUser:
+    def __init__(self):
+        if current_user.is_authenticated:
+            from blockchain.api.models import Notifications
+            self.notifications = Notifications.query.filter(Notifications.user_id == current_user.id).all()[::-1]
+            self.unread_notifications = []
+            for noti in self.notifications:
+                if noti.read is False:
+                    self.unread_notifications.append(noti)
+            self.id = current_user.id
+            self.username = current_user.username
+            self.email = current_user.email
+            self.hash = current_user.password_hash
+        else:
+            self.notifications = []
+            self.id = None
+            self.username = None
+            self.email = None
+            self.hash = None
+
+    @staticmethod
+    def clear_notifications():
+        from blockchain.api.models import Notifications
+        notifications = Notifications.query.filter(Notifications.user_id == current_user.id).all()[::-1]
+        for noti in notifications:
+            noti.read = True
+        db.session.commit()

@@ -1,13 +1,13 @@
 {% extends "logged_in_nav.html" %}
 {% block content %}
 <meta id="my-data" data-name="{{data}}" data-other="{{other}}">
-<div id="det"><h4 style="margin-top:30px; margin-bottom:30px;">User Properties</h4>
-    <table id="user_transactions_table" class="table table-bordered">
+<div id="det"><h4 style="margin-top:30px; margin-bottom:30px;">Notifications</h4>
+    <table id="usertable" class="table table-bordered">
         <thead>
         <tr>
-            <th>Token</th>
-            <th>Name</th>
-            <th>Details</th>
+            <th>Headline</th>
+            <th>Text</th>
+            <th>Time</th>
 
         </tr>
         </thead>
@@ -20,30 +20,28 @@ var messages = $('#my-data').data();
 data = messages['name'];
 console.log(data);
  var dimensionalchart = new SRC.Table({
-            div: "user_transactions_table",
+            div: "usertable",
             data_handler: function(){return data;},
             columnDefs: [{
                 targets: 0,
                 data: function (d) {
                     console.log(d);
-                   return '<a href="/properties/' + d['token'] +'">' + d['token'] + '</a>';
+                   return d['headline'];
                     },
                 }, {
                     targets: 1,
                     data: function (d) {
-                        return d['name'];
+                        return d['text'];
                     },
-                },
-                {
+                }, {
                     targets: 2,
                     data: function (d) {
-                        return d['details'];
+                        return d['time'];
                     },
                 },
             ], refreshFreq: 600000,
 
             });
 $.fn.dataTable.ext.errMode = 'none';
-
 </script>
 {% endblock %}

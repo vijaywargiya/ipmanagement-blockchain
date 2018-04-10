@@ -6,7 +6,6 @@ from argon2 import PasswordHasher
 from flask_login import UserMixin
 
 
-
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -38,5 +37,13 @@ class Property(db.Model):
         return '<Property {}>'.format(self.token)
 
 
+class Notifications(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    time = db.Column(db.String(60))
+    read = db.Column(db.Boolean)
+    headline = db.Column(db.String(60))
+    text = db.Column(db.String(240))
 
-
+    def __repr__(self):
+        return '<Notifications {}>'.format(self.headline)

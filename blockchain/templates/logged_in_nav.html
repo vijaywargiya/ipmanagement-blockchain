@@ -64,7 +64,12 @@
     <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>-->
     <!--<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.js"></script>-->
     <!--<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.js"></script>-->
-
+<style>
+    .dropdown-menu{
+   max-height: 500px;
+   overflow: auto;
+    }
+</style>
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -112,6 +117,18 @@
                 <a class="nav-link" href="/users">
                     <i class="fa fa-fw fa-wrench"></i>
                     <span class="nav-link-text">Users</span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title=" NewTransactions">
+                <a class="nav-link" href="/properties">
+                    <i class="fa fa-fw fa-wrench"></i>
+                    <span class="nav-link-text">Properties</span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title=" NewTransactions">
+                <a class="nav-link" href="/transactions">
+                    <i class="fa fa-fw fa-wrench"></i>
+                    <span class="nav-link-text">Transactions</span>
                 </a>
             </li>
         </ul>
@@ -170,67 +187,57 @@
                    aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-fw fa-bell"></i>
                     <span class="d-lg-none">Alerts
+                        {% if logged_in_user.unread_notifications %}
               <span class="badge badge-pill badge-warning">6 New</span>
             </span>
                     <span class="indicator text-warning d-none d-lg-block">
               <i class="fa fa-fw fa-circle"></i>
             </span>
-                </a>
+                </a>{% endif %}
                 <div class="dropdown-menu" aria-labelledby="alertsDropdown">
                     <h6 class="dropdown-header">New Alerts:</h6>
+                    {% if logged_in_user.unread_notifications %}
+                    <span style="float:right;"><a href="/clear_notifications">clear</a></span>
+                    {% endif %}
+                    {% for item in logged_in_user.unread_notifications %}
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">
               <span class="text-success">
-                <strong>
-                  <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+                <strong>{{item.headline}}</strong>
               </span>
-                        <span class="small float-right text-muted">11:21 AM</span>
-                        <div class="dropdown-message small">This is an automated server response message. All systems
-                            are online.
+                        <span class="small float-right text-muted">{{item.time}}</span>
+                        <div class="dropdown-message small">{{item.text}}
                         </div>
                     </a>
+                    {% endfor %}
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-              <span class="text-danger">
-                <strong>
-                  <i class="fa fa-long-arrow-down fa-fw"></i>Status Update</strong>
-              </span>
-                        <span class="small float-right text-muted">11:21 AM</span>
-                        <div class="dropdown-message small">This is an automated server response message. All systems
-                            are online.
-                        </div>
-                    </a>
+                    <a class="dropdown-item" href="/notifications">View all alerts</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="userDropdown" href="#" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-user-o"></i></a>
+                <div class="dropdown-menu" aria-labelledby="userDropdown">
+                    <h6 class="dropdown-header">{{logged_in_user.username}}</h6>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-              <span class="text-success">
-                <strong>
-                  <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
-              </span>
-                        <span class="small float-right text-muted">11:21 AM</span>
-                        <div class="dropdown-message small">This is an automated server response message. All systems
-                            are online.
-                        </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item small" href="#">View all alerts</a>
+                     <a class="dropdown-item" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fa fa-fw fa-sign-out"></i>Logout</a>
                 </div>
             </li>
             <li class="nav-item">
-                <form class="form-inline my-2 my-lg-0 mr-lg-2">
+                <form class="form-inline my-2 my-lg-0 mr-lg-2" action="/properties" method="POST">
                     <div class="input-group">
-                        <input class="form-control" type="text" placeholder="Search for...">
+                        <input name="search" class="form-control" type="text" placeholder="Search for...">
                         <span class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button class="btn btn-primary" type="submit">
                   <i class="fa fa-search"></i>
                 </button>
               </span>
                     </div>
                 </form>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-                    <i class="fa fa-fw fa-sign-out"></i>Logout</a>
-            </li>
+
         </ul>
     </div>
 </nav>

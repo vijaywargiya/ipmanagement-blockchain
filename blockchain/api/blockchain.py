@@ -237,7 +237,7 @@ class Blockchain:
         self.new_transaction("admin", owner_hash, key)
         return key
 
-    def get_properties(self, user_hash):
+    def get_properties(self, user_hash:str = ''):
         unique_tokens = []
         user_properties = []
         for block in self.chain:
@@ -250,16 +250,22 @@ class Blockchain:
 
         return user_properties
 
-    def get_transactions(self, user_hash):
+    def get_transactions(self, user_hash:str = ''):
         user_transactions = []
+        if user_hash != '':
+            for block in self.chain:
+                for transaction in block['transactions']:
+                    if transaction['sender'] == user_hash:
+                        temp_transaction = deepcopy(transaction)
+                        temp_transaction['sender'] = 'self'
+                        user_transactions.append(temp_transaction)
+                    elif transaction['recipient'] == user_hash:
+                        temp_transaction = deepcopy(transaction)
+                        temp_transaction['recipient'] = 'self'
+                        user_transactions.append(temp_transaction)
+            return user_transactions
         for block in self.chain:
             for transaction in block['transactions']:
-                if transaction['sender'] == user_hash:
-                    temp_transaction = deepcopy(transaction)
-                    temp_transaction['sender'] = 'self'
-                    user_transactions.append(temp_transaction)
-                elif transaction['recipient'] == user_hash:
-                    temp_transaction = deepcopy(transaction)
-                    temp_transaction['recipient'] = 'self'
-                    user_transactions.append(temp_transaction)
+                user_transactions.append(transaction)
         return user_transactions
+

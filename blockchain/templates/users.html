@@ -9,6 +9,7 @@
             <th>Username</th>
             <th>Email</th>
             <th>Role</th>
+            <th>Unique ID</th>
 
         </tr>
         </thead>
@@ -43,6 +44,12 @@ console.log(data);
                     targets: 3,
                     data: function (d) {
                         return d['role'];
+                    },
+                },
+                {
+                    targets: 4,
+                    data: function (d) {
+                        return d['password_hash'];
                     },
                 },
             ], refreshFreq: 600000,
