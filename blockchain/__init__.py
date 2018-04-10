@@ -24,8 +24,11 @@ from blockchain.routes import app
 def main():
     app.secret_key = 'super secret key'
     app.config['SESSION_TYPE'] = 'filesystem'
-    app.debug = True
-    serve(app)
+    # app.debug = True
+    # serve(app)
+    import os
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
 
 
 from blockchain.api import models
