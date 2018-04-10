@@ -13,10 +13,7 @@
 #   Primary Author: Shivam Vijaywargiya <shivam.vijaywargiya@soroco.com>
 #
 #   Purpose: serve the application
-from flask import Flask
-from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
-from waitress import serve
+
 from blockchain.api.config import Config
 from blockchain.routes import app
 

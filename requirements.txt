@@ -4,8 +4,9 @@ flask_wtf
 wtforms
 argon2
 flask_login
-pickle
 flask_migrate
 flask_sqlalchemy
 flask_restful
 werkzeug
+waitress
+requests
