@@ -51,6 +51,7 @@ def check_address(func):
                 return redirect("/logout")
         except AttributeError:
             pass
+        blockchain.resolve_conflicts()
         return func(*args, **kwargs)
 
     return decorated_function

@@ -18,7 +18,7 @@ from urllib.parse import urlparse
 
 import requests
 
-address = 'http://localhost:5000'
+address = 'https://blockchain-property.herokuapp.com'
 print(address)
 nodes = []
 parsed_url = urlparse(address)
