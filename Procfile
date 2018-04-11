@@ -1,1 +1,1 @@
-web: gunicorn -b :$PORT blockchain:app
+web: python blockchain/__init__.py
