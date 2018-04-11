@@ -24,7 +24,11 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         ph = PasswordHasher()
-        return ph.verify(self.password_hash, password)
+        try:
+            return ph.verify(self.password_hash, password)
+        except Exception:
+            return False
+        return False
 
 
 class Property(db.Model):

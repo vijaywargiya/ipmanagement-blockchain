@@ -341,7 +341,7 @@ def read():
             blockchain.__setattr__('chain', pickle.load(pickle_handle))
 
 
-read()
+# read()
 
 
 @app.route('/clear_messages')
