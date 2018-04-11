@@ -13,7 +13,7 @@ import datetime
 
 import sqlalchemy
 from argon2 import PasswordHasher
-from flask_login import current_user, login_user, logout_user, UserMixin
+from flask_login import current_user, login_user, logout_user, UserMixin, login_required
 
 from flask import jsonify, request, render_template, flash, url_for, Flask, redirect, json, session
 from flask_migrate import Migrate
@@ -90,6 +90,7 @@ class GenerateAddress(Resource):
 
 @app.route('/users')
 @check_address
+@login_required
 def users():
     from blockchain.api.models import User
     users = User.query.all()
@@ -102,6 +103,7 @@ def users():
 
 @app.route('/my_transactions_screen')
 @check_address
+@login_required
 def user_transactions():
     data = blockchain.get_transactions(current_user.address)
     data = json.dumps(data)
@@ -110,6 +112,7 @@ def user_transactions():
 
 @app.route('/transactions')
 @check_address
+@login_required
 def transactions():
     data = blockchain.get_transactions()
     data = json.dumps(data)
@@ -118,6 +121,7 @@ def transactions():
 
 @app.route('/my_properties_screen')
 @check_address
+@login_required
 def user_properties():
     from blockchain.api.models import Property
     data = blockchain.get_properties(current_user.address)
@@ -133,6 +137,7 @@ def user_properties():
 @app.route('/properties', methods=['POST', 'GET'])
 @app.route('/properties/<string:token>')
 @check_address
+@login_required
 def properties(token: str = ''):
     from blockchain.api.models import Property
     if request.method == 'POST':
@@ -178,6 +183,7 @@ def login():
 
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect("/")
@@ -221,6 +227,7 @@ def mine():
 
 @app.route('/new_transaction_screen', methods=['POST', 'GET'])
 @check_address
+@login_required
 def new_transaction_screen():
     form = NewTransactionForm()
     if request.method == 'POST':
@@ -258,6 +265,7 @@ def full_chain():
 
 
 @app.route('/nodes/register', methods=['POST'])
+@login_required
 def register_nodes():
     value = request.form['node']
 
@@ -299,6 +307,7 @@ db.create_all()
 
 @app.route('/add_property_screen', methods=['POST', 'GET'])
 @check_address
+@login_required
 def add_property():
     form = PropertyForm()
     if request.method == 'POST':
@@ -346,6 +355,7 @@ def read():
 
 @app.route('/clear_messages')
 @check_address
+@login_required
 def clear_messages():
     current_user.clear_messages()
     next_page = request.args.get('next')
@@ -356,6 +366,7 @@ def clear_messages():
 
 @app.route("/send_messages/<string:token>", methods=['POST'])
 @check_address
+@login_required
 def send_messages(token: str):
     path = blockchain.find_path(token)
     if not path:
@@ -377,6 +388,7 @@ def send_messages(token: str):
 
 @app.route('/messages')
 @check_address
+@login_required
 def messages():
     current_user.clear_messages()
     messages = current_user.messages
@@ -391,6 +403,7 @@ def messages():
 
 @app.route('/clear_notifications')
 @check_address
+@login_required
 def clear_notifications():
     current_user.clear_notifications()
     next_page = request.args.get('next')
@@ -401,6 +414,7 @@ def clear_notifications():
 
 @app.route('/notifications')
 @check_address
+@login_required
 def notifications():
     current_user.clear_notifications()
     notifications = current_user.notifications
