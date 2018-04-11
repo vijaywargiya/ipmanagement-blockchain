@@ -67,7 +67,7 @@ def register():
                     password_hash=User.hash_password(form.password.data))
         db.session.add(user)
         db.session.commit()
-        no = Notifications(user_id=user.id, time=str(datetime.datetime.now().strftime("%d/%m/%y %I:%M%p")),
+        no = Notifications(user_address_hash=user.id, time=str(datetime.datetime.now().strftime("%d/%m/%y %I:%M%p")),
                            headline='Welcome Abord',
                            text='For any clarifications see help manual at',
                            read=False)
