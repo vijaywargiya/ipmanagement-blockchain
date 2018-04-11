@@ -9,6 +9,8 @@ from uuid import uuid4, uuid5
 import requests
 from argon2 import PasswordHasher
 from copy import deepcopy
+
+from argon2.exceptions import VerificationError
 from flask import Flask, jsonify, request
 
 
@@ -122,7 +124,7 @@ class Blockchain:
         self.chain.append(block)
         return block
 
-    def new_transaction(self, sender, recipient, token):
+    def new_transaction(self, owner_address, sender, recipient, token):
         """
         Creates a new transaction to go into the next mined Block
 
@@ -131,8 +133,10 @@ class Blockchain:
         :param token: Token of the property
         :return: The index of the Block that will hold this transaction
         """
-        verify = self.verify_token(sender, token)
-        if verify == 'Found':
+        verify = True
+        if sender != 'admin':
+            verify = self.verify_token(owner_address, token)
+        if verify:
             self.current_transactions.append({
                 'sender': sender,
                 'recipient': recipient,
@@ -140,7 +144,6 @@ class Blockchain:
             })
 
             return self.last_block['index'] + 1
-
         return verify
 
     def find_path(self, token):
@@ -154,30 +157,16 @@ class Blockchain:
                 path.append(item)
         return path
 
-    def verify_token(self, nsender, token):
-        path = []
-        sender = uuid4()
-        if nsender == "admin":
-            return "Found"
-        for item in self.chain:
-            for i in item['transactions']:
-                if i['token'] == token:
-                    if i['sender'] == sender or 'admin':
-                        sender = i['recipient']
-                        path.append(i)
-                    else:
-                        return "Path Compromised"
-
-        for item in self.current_transactions:
-            if item['token'] == token:
-                if item['sender'] == sender or 'admin':
-                    sender = item['recipient']
-                    path.append(item)
-                else:
-                    return "Path Compromised"
-        if sender == nsender:
-            return "Found"
-        return "You are not the owner of this property"
+    def verify_token(self, owner_address, token):
+        ph = PasswordHasher()
+        path = self.find_path(token)
+        if not path:
+            return False
+        try:
+            return ph.verify(path[-1]['recipient'], owner_address)
+        except VerificationError:
+            return False
+        return False
 
     @property
     def last_block(self):
@@ -234,14 +223,14 @@ class Blockchain:
     def add_property(self, property, owner_hash):
         uuuuid = uuid.uuid5(uuid.NAMESPACE_DNS, property)
         key = str(uuid5(uuuuid, owner_hash))
-        self.new_transaction("admin", owner_hash, key)
+        self.new_transaction(str(uuid.uuid4()), "admin", owner_hash, key)
         return key
 
     def get_properties(self, user_hash: str = ''):
         unique_tokens = self.get_unique_tokens()
         user_properties = []
         for token in unique_tokens:
-            if self.verify_token(user_hash, token) == 'Found':
+            if self.verify_token(user_hash, token):
                 user_properties.append(token)
 
         return user_properties

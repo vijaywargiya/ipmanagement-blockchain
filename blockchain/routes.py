@@ -83,6 +83,13 @@ def load_user(id):
     return LoggedInUser(id)
 
 
+class GenerateAddress(Resource):
+    def get(self):
+        ph = PasswordHasher()
+        key = ph.hash(current_user.address)
+        return str(key)
+
+
 @app.route('/users')
 @check_address
 def users():
@@ -194,7 +201,8 @@ def mine():
     # We must receive a reward for finding the proof.
     # The sender is "0" to signify that this node has mined a new coin.
     blockchain.new_transaction(
-        sender="0",
+        owner_address=uuid4(),
+        sender="admin",
         recipient=node_identifier,
         token=1,
     )
@@ -221,8 +229,9 @@ def new_transaction_screen():
         from blockchain.api.models import User, Notifications
         reciever_hash = request.form['reciever']
         token = request.form['token']
-        user_hash = current_user.address
-        index = blockchain.new_transaction(user_hash, reciever_hash, token)
+        ph = PasswordHasher()
+        user_hash = ph.hash(current_user.address)
+        index = blockchain.new_transaction(current_user.address, user_hash, reciever_hash, token)
         no1 = Notifications(user_address_hash=current_user.address,
                             time=str(datetime.datetime.now().strftime("%d/%m/%y %I:%M%p")),
                             headline='Property Sent', text=token,
@@ -297,11 +306,14 @@ def add_property():
         name = request.form['property_name']
         details = request.form['property_details']
         property_info = name + details
-        user_hash = current_user.address
+        ph = PasswordHasher()
+        user_hash = ph.hash(current_user.address)
         key = blockchain.add_property(property_info, user_hash)
         from blockchain.api.models import Property, Notifications
         property = Property(token=key, name=name, body=details)
-        no = Notifications(user_address_hash=current_user.address,
+        ph = PasswordHasher()
+        user_address_hash = ph.hash(current_user.address)
+        no = Notifications(user_address_hash=user_address_hash,
                            time=str(datetime.datetime.now().strftime("%d/%m/%y %I:%M%p")),
                            headline='Property Added', text=key,
                            read=False)
@@ -442,3 +454,6 @@ class LoggedInUser(UserMixin):
         for noti in messages:
             noti.read = True
         db.session.commit()
+
+
+api.add_resource(GenerateAddress, "/generate_address")

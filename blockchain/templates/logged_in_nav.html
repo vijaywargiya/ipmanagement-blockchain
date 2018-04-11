@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.css') }}"
           type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sb-admin.css') }}" type="text/css">
-     <script src="/static/js/vendor/d3.min.js"></script>
+    <script src="/static/js/vendor/d3.min.js"></script>
     <script src="/static/js/vendor/rickshaw.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -37,8 +37,8 @@
     <script src="{{ url_for('static', filename='js/jqBootstrapValidation.js') }}"></script>
     <script src="{{ url_for('static', filename='js/contact_me.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-     <script src="/static/js/vendor/crossfilter.js"></script>
-        <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="/static/js/vendor/crossfilter.js"></script>
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
@@ -56,20 +56,21 @@
     <script src="/static/js/dimensionalchart.js"></script>
 
     <!--<link rel="stylesheet" type="text/css"-->
-          <!--href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/r-2.2.1/datatables.min.css"/>-->
+    <!--href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/r-2.2.1/datatables.min.css"/>-->
     <!--<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.1/js/buttons.colVis.min.js"></script>-->
     <!--<script type="text/javascript"-->
-            <!--src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/r-2.2.1/datatables.min.js"></script>-->
+    <!--src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/r-2.2.1/datatables.min.js"></script>-->
     <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>-->
     <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>-->
     <!--<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.js"></script>-->
     <!--<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.js"></script>-->
-<style>
+    <style>
     .dropdown-menu{
    max-height: 500px;
    overflow: auto;
     }
-</style>
+
+    </style>
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -145,9 +146,9 @@
                 <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-fw fa-envelope"></i>
-                    <span class="d-lg-none">Alerts
+                    <span class="d-lg-none">Messages
                         {% if logged_in_user.unread_messages%}
-              <span class="badge badge-pill badge-primary">6 New</span>
+              <span class="badge badge-pill badge-primary">{{ logged_in_user.unread_messages|length }} New</span>
             </span>
                     <span class="indicator text-primary d-none d-lg-block">
               <i class="fa fa-fw fa-circle"></i>
@@ -155,9 +156,10 @@
                 </a>{% endif %}
                 <div class="dropdown-menu" aria-labelledby="alertsDropdown">
                     <div class="dropdown-header">New Messages:
-                    {% if logged_in_user.unread_messages %}
-                     <span class="small float-right text-muted"><a href="/clear_messages">clear</a></span>
-                    {% endif %}</div>
+                        {% if logged_in_user.unread_messages %}
+                        <span class="small float-right text-muted"><a href="/clear_messages">clear</a></span>
+                        {% endif %}
+                    </div>
                     {% for item in logged_in_user.unread_messages %}
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">
@@ -179,7 +181,7 @@
                     <i class="fa fa-fw fa-bell"></i>
                     <span class="d-lg-none">Alerts
                         {% if logged_in_user.unread_notifications %}
-              <span class="badge badge-pill badge-warning">6 New</span>
+              <span class="badge badge-pill badge-warning">{{ logged_in_user.unread_notifications|length }} New</span>
             </span>
                     <span class="indicator text-warning d-none d-lg-block">
               <i class="fa fa-fw fa-circle"></i>
@@ -187,9 +189,10 @@
                 </a>{% endif %}
                 <div class="dropdown-menu" aria-labelledby="alertsDropdown">
                     <div class="dropdown-header">New Alerts:
-                    {% if logged_in_user.unread_notifications %}
-                     <span class="small float-right text-muted"><a href="/clear_notifications">clear</a></span>
-                    {% endif %}</div>
+                        {% if logged_in_user.unread_notifications %}
+                        <span class="small float-right text-muted"><a href="/clear_notifications">clear</a></span>
+                        {% endif %}
+                    </div>
                     {% for item in logged_in_user.unread_notifications %}
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">
@@ -212,8 +215,10 @@
                 <div class="dropdown-menu" aria-labelledby="userDropdown">
                     <h6 class="dropdown-header">{{logged_in_user.username}}</h6>
                     <div class="dropdown-divider"></div>
-                     <a class="dropdown-item" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">
-                    <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                    <button class="btn btn-light btn-small" onclick="generate_address()">Generate Address</button>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModal">
+                        <i class="fa fa-fw fa-sign-out"></i>Logout</a>
                 </div>
             </li>
             <li class="nav-item">
@@ -236,39 +241,60 @@
 <div class="content-wrapper" style="padding:20px;">
     {% block content %}{% endblock %}
 </div>
-    <footer class="sticky-footer">
-        <div class="container">
-            <div class="text-center">
-                <small>Final Year Project By Shivam Vijaywargiya</small>
-            </div>
+<footer class="sticky-footer">
+    <div class="container">
+        <div class="text-center">
+            <small>Final Year Project By Shivam Vijaywargiya</small>
         </div>
-    </footer>
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fa fa-angle-up"></i>
-    </a>
-    <!-- Logout Modal-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/logout">Logout</a>
-                </div>
+    </div>
+</footer>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fa fa-angle-up"></i>
+</a>
+<!-- Logout Modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="/logout">Logout</a>
             </div>
         </div>
     </div>
-
-
 </div>
+
+<input type="text" value="" id="myaddress">
+
 </body>
 
 </html>
+<script>
+    function generate_address(){
+        $.ajax({
+    url: '/generate_address',
+    type: 'GET',
+    async: false,
+    success: function (data) {
+      document.getElementById("myaddress").value = data;
+      var copyText = document.getElementById("myaddress");
+      copyText.select();
+      document.execCommand("Copy");
+      alert("Copied the address");
+    },
+    error: function (e) {
+        alert('Something went wrong');
+    }
+});
+
+    }
+
+</script>

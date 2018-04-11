@@ -19,6 +19,12 @@ from argon2 import PasswordHasher
 
 password = '198922113'
 username = 'vijaywargiya'
-uuuuid = uuid.uuid5(uuid.NAMESPACE_DNS, password + username)
-# key = str(uuid.uuid5(uuuuid, hash))/
-print(uuuuid)
+ph = PasswordHasher()
+key = ph.hash(password + username)
+print(key)
+key = ph.hash(password + username)
+print(key)
+key = ph.hash(password + username)
+print(key)
+key = ph.hash(username + username)
+print(key)
