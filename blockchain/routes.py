@@ -67,12 +67,6 @@ def register():
                     password_hash=User.hash_password(form.password.data))
         db.session.add(user)
         db.session.commit()
-        no = Notifications(user_address_hash=user.id, time=str(datetime.datetime.now().strftime("%d/%m/%y %I:%M%p")),
-                           headline='Welcome Abord',
-                           text='For any clarifications see help manual at',
-                           read=False)
-        db.session.add(no)
-        db.session.commit()
         flash('User Successfully Registered')
         return redirect("/login")
     return render_template('register.html', title='Register', form=form)
@@ -232,7 +226,7 @@ def new_transaction_screen():
         ph = PasswordHasher()
         user_hash = ph.hash(current_user.address)
         index = blockchain.new_transaction(current_user.address, user_hash, reciever_hash, token)
-        no1 = Notifications(user_address_hash=current_user.address,
+        no1 = Notifications(user_address_hash=user_hash,
                             time=str(datetime.datetime.now().strftime("%d/%m/%y %I:%M%p")),
                             headline='Property Sent', text=token,
                             read=False)
@@ -363,10 +357,12 @@ def send_messages(token: str):
         user_address_hash = token
     else:
         owner_hash = path[-1]['recipient']
-        user_address_hash = owner_hash  # TODO: encrypt this
+        user_address_hash = owner_hash
     text = request.form['text']
     from blockchain.api.models import Messages
-    me = Messages(user_address_hash=user_address_hash, sender_address_hash=current_user.address,  # TODO: encrypt this
+    ph = PasswordHasher()
+    sender_user_hash = ph.hash(current_user.address)
+    me = Messages(user_address_hash=user_address_hash, sender_address_hash=sender_user_hash,  # TODO: encrypt this
                   time=str(datetime.datetime.now().strftime("%d/%m/%y %I:%M%p")),
                   text=text, read=False)
     db.session.add(me)
@@ -416,6 +412,7 @@ class LoggedInUser(UserMixin):
     def __init__(self, id):
         from blockchain.api.models import Notifications, Messages, User
         user_details = User.query.filter_by(id=id).first().__dict__
+        ph = PasswordHasher()
         for item in user_details:
             self.__setattr__(item, user_details[item])
         try:
@@ -423,34 +420,44 @@ class LoggedInUser(UserMixin):
         except KeyError:
             self.address = ''
         try:
-            self.notifications = Notifications.query.filter(Notifications.user_address_hash == self.address).all()[::-1]
-        except InterfaceError:
-            print("sql alchemy error")
-            self.notifications = []
+            notifications = Notifications.query.all()[::-1]
+        except Exception:
+            notifications = []
+        self.notifications = []
+        for mess in notifications:
+            try:
+                if ph.verify(mess.user_address_hash, self.address):
+                    self.notifications.append(mess)
+            except Exception:
+                continue
         self.unread_notifications = []
         for noti in self.notifications:
             if noti.read is False:
                 self.unread_notifications.append(noti)
         try:
-            self.messages = Messages.query.filter(Messages.user_address_hash == self.address).all()[::-1]
-        except InterfaceError:
-            print("sql alchemy error")
-            self.messages = []
+            messages = Messages.query.all()[::-1]
+        except Exception:
+            messages = []
+        self.messages = []
+        for mess in messages:
+            try:
+                if ph.verify(mess.user_address_hash, self.address):
+                    self.messages.append(mess)
+            except Exception:
+                continue
         self.unread_messages = []
         for noti in self.messages:
             if noti.read is False:
                 self.unread_messages.append(noti)
 
     def clear_notifications(self):
-        from blockchain.api.models import Notifications
-        notifications = Notifications.query.filter(Notifications.user_address_hash == current_user.address).all()[::-1]
+        notifications = self.unread_notifications
         for noti in notifications:
             noti.read = True
         db.session.commit()
 
     def clear_messages(self):
-        from blockchain.api.models import Messages
-        messages = Messages.query.filter(Messages.user_address_hash == current_user.address).all()[::-1]
+        messages = self.unread_messages
         for noti in messages:
             noti.read = True
         db.session.commit()
