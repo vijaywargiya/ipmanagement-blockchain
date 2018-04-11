@@ -70,6 +70,7 @@
    overflow: auto;
     }
 
+
     </style>
 </head>
 
@@ -131,6 +132,10 @@
                     <i class="fa fa-fw fa-clone"></i>
                     <span class="nav-link-text">Transactions</span>
                 </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title=" NewTransactions">
+                <a class="nav-link" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModalnode">
+                    <i class="fa fa-fw fa-sign-out"></i>Register Node</a>
             </li>
         </ul>
         <ul class="navbar-nav sidenav-toggler">
@@ -271,6 +276,28 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="exampleModalnode" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalnodeLabel">Add url of node to be registered</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/nodes/register" method="POST">
+                    <input type="text" name="node" placeholder="Enter Node Url">
+                    <button class="btn btn-light">Register</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <input type="text" value="" id="myaddress">
 
@@ -296,5 +323,6 @@
 });
 
     }
+
 
 </script>

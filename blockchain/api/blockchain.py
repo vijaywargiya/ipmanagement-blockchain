@@ -19,8 +19,6 @@ class Blockchain:
         self.current_transactions = []
         self.chain = []
         self.nodes = set()
-        self.nodes.add('blockchain-property.herokuapp.com')
-        self.nodes.add('ipmanagement.herokuapp.com')
         # Create the genesis block
         self.new_block(previous_hash='1', proof=100)
 

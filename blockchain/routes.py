@@ -259,20 +259,21 @@ def full_chain():
 
 @app.route('/nodes/register', methods=['POST'])
 def register_nodes():
-    values = request.get_json()
+    value = request.form['node']
 
-    nodes = values.get('nodes')
-    if nodes is None:
-        return "Error: Please supply a valid list of nodes", 400
+    if not value:
+        return render_template('message.html', message='Enter a valid url')
 
-    for node in nodes:
-        blockchain.register_node(node)
+    try:
+        blockchain.register_node(value)
+    except ValueError:
+        return render_template('message.html', message='Enter a valid url')
 
     response = {
         'message': 'New nodes have been added',
         'total_nodes': list(blockchain.nodes),
     }
-    return jsonify(response), 201
+    return render_template('message.html', message=response)
 
 
 @app.route('/nodes/resolve', methods=['GET'])
