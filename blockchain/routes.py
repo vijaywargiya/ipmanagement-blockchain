@@ -46,8 +46,11 @@ app.secret_key = 'some_secret'
 def check_address(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
-        if current_user.address == '':
-            return redirect("/logout")
+        try:
+            if current_user.address == '':
+                return redirect("/logout")
+        except AttributeError:
+            pass
         return func(*args, **kwargs)
 
     return decorated_function
@@ -336,7 +339,7 @@ def read():
             blockchain.__setattr__('chain', pickle.load(pickle_handle))
 
 
-# read()
+read()
 
 
 @app.route('/clear_messages')

@@ -14,17 +14,22 @@
 #
 #   Purpose: A short description of the purpose of this source file ...
 import uuid
+from urllib.parse import urlparse
 
-from argon2 import PasswordHasher
+import requests
 
-password = '198922113'
-username = 'vijaywargiya'
-ph = PasswordHasher()
-key = ph.hash(password + username)
-print(key)
-key = ph.hash(password + username)
-print(key)
-key = ph.hash(password + username)
-print(key)
-key = ph.hash(username + username)
-print(key)
+address = 'http://localhost:5000'
+print(address)
+nodes = []
+parsed_url = urlparse(address)
+print(parsed_url)
+if parsed_url.netloc:
+    nodes.append(parsed_url.netloc)
+elif parsed_url.path:
+    # Accepts an URL without scheme like '192.168.0.5:5000'.
+    nodes.append(parsed_url.path)
+
+print(nodes)
+for node in nodes:
+    response = requests.get('http://{}/chain'.format(node))
+    print(response.json())

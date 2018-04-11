@@ -245,18 +245,25 @@ class Blockchain:
 
     def get_transactions(self, user_hash: str = ''):
         user_transactions = []
+        ph = PasswordHasher()
         if user_hash != '':
             for block in self.chain:
                 for transaction in block['transactions']:
-                    if transaction['sender'] == user_hash:
-                        temp_transaction = deepcopy(transaction)
-                        temp_transaction['sender'] = 'self'
-                        user_transactions.append(temp_transaction)
-                    elif transaction['recipient'] == user_hash:
-                        temp_transaction = deepcopy(transaction)
-                        temp_transaction['recipient'] = 'self'
-                        user_transactions.append(temp_transaction)
+                    try:
+                        if ph.verify(transaction['sender'], user_hash):
+                            temp_transaction = deepcopy(transaction)
+                            temp_transaction['sender'] = 'self'
+                            user_transactions.append(temp_transaction)
+                    except Exception:
+                        try:
+                            if ph.verify(transaction['reciever'], user_hash):
+                                temp_transaction = deepcopy(transaction)
+                                temp_transaction['recipient'] = 'self'
+                                user_transactions.append(temp_transaction)
+                        except Exception:
+                            continue
             return user_transactions
+
         for block in self.chain:
             for transaction in block['transactions']:
                 user_transactions.append(transaction)
