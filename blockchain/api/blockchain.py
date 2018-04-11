@@ -237,20 +237,24 @@ class Blockchain:
         self.new_transaction("admin", owner_hash, key)
         return key
 
-    def get_properties(self, user_hash:str = ''):
-        unique_tokens = []
+    def get_properties(self, user_hash: str = ''):
+        unique_tokens = self.get_unique_tokens()
         user_properties = []
-        for block in self.chain:
-            for transaction in block['transactions']:
-                if transaction['token'] not in unique_tokens:
-                    unique_tokens.append(transaction['token'])
         for token in unique_tokens:
             if self.verify_token(user_hash, token) == 'Found':
                 user_properties.append(token)
 
         return user_properties
 
-    def get_transactions(self, user_hash:str = ''):
+    def get_unique_tokens(self):
+        unique_tokens = []
+        for block in self.chain:
+            for transaction in block['transactions']:
+                if transaction['token'] not in unique_tokens:
+                    unique_tokens.append(transaction['token'])
+        return unique_tokens
+
+    def get_transactions(self, user_hash: str = ''):
         user_transactions = []
         if user_hash != '':
             for block in self.chain:
@@ -268,4 +272,3 @@ class Blockchain:
             for transaction in block['transactions']:
                 user_transactions.append(transaction)
         return user_transactions
-

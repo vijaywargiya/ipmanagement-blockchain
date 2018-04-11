@@ -1,15 +1,13 @@
 {% extends "logged_in_nav.html" %}
 {% block content %}
-<meta id="my-data" data-name="{{properties}}" data-other="{{other}}">
-<div id="det"><h4 style="margin-top:30px; margin-bottom:30px;">Property Details</h4>
+<meta id="my-data" data-name="{{data}}" data-other="{{other}}">
+<div id="det"><h4 style="margin-top:30px; margin-bottom:30px;">Messages</h4>
     <table id="usertable" class="table table-bordered">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Token</th>
-            <th>Name</th>
-            <th>Body</th>
-            <th>Send Message</th>
+            <th>Text</th>
+            <th>Time</th>
+            <th>Reply</th>
 
         </tr>
         </thead>
@@ -19,7 +17,7 @@
 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content"  style="padding:20px;" >
+        <div class="modal-content" style="padding:20px;">
             <div class="modal-header" style="margin-bottom:20px;">
                 <h5 class="modal-title" id="exampleModalLabel">Send Message</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -27,17 +25,17 @@
                 </button>
             </div>
             <form action="" name="message_form" method="post">
-        {{ form.hidden_tag() }}
+                {{ form.hidden_tag() }}
 
-        <p>
-            {{ form.text.label }}<br>
-            {{ form.text(size=32) }}<br>
-            {% for error in form.text.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+                <p>
+                    {{ form.text.label }}<br>
+                    {{ form.text(size=32) }}<br>
+                    {% for error in form.text.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>{{ form.submit() }}</p>
+            </form>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
             </div>
@@ -45,7 +43,6 @@
     </div>
 </div>
 <script>
-
 var messages = $('#my-data').data();
 data = messages['name'];
 console.log(data);
@@ -53,31 +50,20 @@ console.log(data);
             div: "usertable",
             data_handler: function(){return data;},
             columnDefs: [{
-                targets: 0,
-                data: function (d) {
-                    console.log(d);
-                   return d['id'];
+                    targets: 0,
+                    data: function (d) {
+                        return d['text'];
                     },
                 }, {
                     targets: 1,
                     data: function (d) {
-                        return d['token'];
+                        return d['time'];
                     },
-                }, {
+                },
+                {
                     targets: 2,
                     data: function (d) {
-                        return d['name'];
-                    },
-                },{
-                    targets: 3,
-                    data: function (d) {
-                        return d['body'];
-                    },
-                },{
-
-                    targets: 4,
-                    data: function (d) {
-                        return "<button class='btn btn_dark' onclick='tokentoken(" + JSON.stringify(d['token']) + ")' style='cursor:pointer;' data-toggle='modal' data-target='#exampleModal2'><i class='fa fa-fw fa-envelope-open-o'></i></button>";
+                         return "<button class='btn btn_dark' onclick='tokentoken(" + JSON.stringify(d['sender_id']) + ")' style='cursor:pointer;' data-toggle='modal' data-target='#exampleModal2'><i class='fa fa-fw fa-envelope-open-o'></i></button>";
                         },
                 },
             ], refreshFreq: 600000,
@@ -85,8 +71,9 @@ console.log(data);
             });
 $.fn.dataTable.ext.errMode = 'none';
 function tokentoken(tok){
-console.log('called')
+console.log(tok)
     document.message_form.action = "/send_messages/" + tok;
 }
+
 </script>
 {% endblock %}

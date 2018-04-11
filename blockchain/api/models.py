@@ -39,11 +39,24 @@ class Property(db.Model):
 
 class Notifications(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
+    user_address_hash = db.Column(db.String(256))
     time = db.Column(db.String(60))
     read = db.Column(db.Boolean)
     headline = db.Column(db.String(60))
     text = db.Column(db.String(240))
+    property_token = db.Column(db.String(60))
 
     def __repr__(self):
         return '<Notifications {}>'.format(self.headline)
+
+
+class Messages(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_address_hash = db.Column(db.String(256))
+    sender_address_hash = db.Column(db.String(256))
+    time = db.Column(db.String(60))
+    read = db.Column(db.Boolean)
+    text = db.Column(db.String(256))
+
+    def __repr__(self):
+        return '<Messages {}>'.format(self.headline)

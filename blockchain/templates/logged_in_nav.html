@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>SB Admin - Start Bootstrap Template</title>
+    <title>IP Management System</title>
     <!-- Bootstrap core CSS-->
     <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}"
           type="text/css">
@@ -85,49 +85,49 @@
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
                 <a class="nav-link" href="/">
-                    <i class="fa fa-fw fa-dashboard"></i>
+                    <i class="fa fa-fw fa-home"></i>
                     <span class="nav-link-text">Home</span>
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="MyProperties">
                 <a class="nav-link" href="my_properties_screen">
-                    <i class="fa fa-fw fa-area-chart"></i>
+                    <i class="fa fa-fw fa-building-o"></i>
                     <span class="nav-link-text">My Properties</span>
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="AddProperty">
                 <a class="nav-link" href="/add_property_screen">
-                    <i class="fa fa-fw fa-wrench"></i>
+                    <i class="fa fa-fw fa-plus"></i>
                     <span class="nav-link-text">Add Property</span>
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="MyTransactions">
                 <a class="nav-link" href="/my_transactions_screen">
-                    <i class="fa fa-fw fa-table"></i>
+                    <i class="fa fa-fw fa-print"></i>
                     <span class="nav-link-text">My Transactions</span>
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title=" NewTransactions">
                 <a class="nav-link" href="/new_transaction_screen">
-                    <i class="fa fa-fw fa-wrench"></i>
+                    <i class="fa fa-fw fa-plus"></i>
                     <span class="nav-link-text">New Transaction</span>
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title=" NewTransactions">
                 <a class="nav-link" href="/users">
-                    <i class="fa fa-fw fa-wrench"></i>
+                    <i class="fa fa-fw  fa-users"></i>
                     <span class="nav-link-text">Users</span>
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title=" NewTransactions">
                 <a class="nav-link" href="/properties">
-                    <i class="fa fa-fw fa-wrench"></i>
+                    <i class="fa fa-fw fa-folder-o"></i>
                     <span class="nav-link-text">Properties</span>
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title=" NewTransactions">
                 <a class="nav-link" href="/transactions">
-                    <i class="fa fa-fw fa-wrench"></i>
+                    <i class="fa fa-fw fa-clone"></i>
                     <span class="nav-link-text">Transactions</span>
                 </a>
             </li>
@@ -140,46 +140,37 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-fw fa-envelope"></i>
-                    <span class="d-lg-none">Messages
-              <span class="badge badge-pill badge-primary">12 New</span>
+                    <span class="d-lg-none">Alerts
+                        {% if logged_in_user.unread_messages%}
+              <span class="badge badge-pill badge-primary">6 New</span>
             </span>
                     <span class="indicator text-primary d-none d-lg-block">
               <i class="fa fa-fw fa-circle"></i>
             </span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="messagesDropdown">
-                    <h6 class="dropdown-header">New Messages:</h6>
+                </a>{% endif %}
+                <div class="dropdown-menu" aria-labelledby="alertsDropdown">
+                    <div class="dropdown-header">New Messages:
+                    {% if logged_in_user.unread_messages %}
+                     <span class="small float-right text-muted"><a href="/clear_messages">clear</a></span>
+                    {% endif %}</div>
+                    {% for item in logged_in_user.unread_messages %}
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">
-                        <strong>David Miller</strong>
-                        <span class="small float-right text-muted">11:21 AM</span>
-                        <div class="dropdown-message small">Hey there! This new version of SB Admin is pretty awesome!
-                            These messages clip off when they reach the end of the box so they don't overflow over to
-                            the sides!
+              <span class="text-success">
+                <strong>{{item.headline}}</strong>
+              </span>
+                        <span class="small float-right text-muted">{{item.time}}</span>
+                        <div class="dropdown-message small">{{item.text}}
                         </div>
                     </a>
+                    {% endfor %}
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                        <strong>Jane Smith</strong>
-                        <span class="small float-right text-muted">11:21 AM</span>
-                        <div class="dropdown-message small">I was wondering if you could meet for an appointment at 3:00
-                            instead of 4:00. Thanks!
-                        </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                        <strong>John Doe</strong>
-                        <span class="small float-right text-muted">11:21 AM</span>
-                        <div class="dropdown-message small">I've sent the final files over to you for review. When
-                            you're able to sign off of them let me know and we can discuss distribution.
-                        </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item small" href="#">View all messages</a>
+                    <a class="dropdown-item" href="/messages">View all messages</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -195,10 +186,10 @@
             </span>
                 </a>{% endif %}
                 <div class="dropdown-menu" aria-labelledby="alertsDropdown">
-                    <h6 class="dropdown-header">New Alerts:</h6>
+                    <div class="dropdown-header">New Alerts:
                     {% if logged_in_user.unread_notifications %}
-                    <span style="float:right;"><a href="/clear_notifications">clear</a></span>
-                    {% endif %}
+                     <span class="small float-right text-muted"><a href="/clear_notifications">clear</a></span>
+                    {% endif %}</div>
                     {% for item in logged_in_user.unread_notifications %}
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">

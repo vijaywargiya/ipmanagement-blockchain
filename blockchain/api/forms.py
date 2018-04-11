@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, HiddenField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 
@@ -43,3 +43,11 @@ class PropertyForm(FlaskForm):
     property_name = StringField('Property Name', validators=[DataRequired()])
     property_details = StringField('Property Details')
     submit = SubmitField('Add Property')
+
+
+class MessagesForm(FlaskForm):
+    reciever_id = HiddenField('Reciever ID')
+    sender_id = HiddenField('Sender ID')
+    text = StringField('Body', validators=[DataRequired()])
+    property_token = HiddenField('Property Token')
+    submit = SubmitField('Send Message')
