@@ -21,6 +21,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api, Resource
 from sqlalchemy.exc import InterfaceError
 from werkzeug.urls import url_parse
+from werkzeug.utils import secure_filename
 
 from blockchain.api.blockchain import Blockchain
 from blockchain.api.forms import RegistrationForm, LoginForm, NewTransactionForm, PropertyForm, MessagesForm
@@ -92,6 +93,8 @@ class GenerateAddress(Resource):
 @check_address
 @login_required
 def users():
+    if current_user.role != 'admin':
+        return render_template("message.html", message='Not Authorised')
     from blockchain.api.models import User
     users = User.query.all()
     if users:
@@ -267,6 +270,8 @@ def full_chain():
 @app.route('/nodes/register', methods=['POST'])
 @login_required
 def register_nodes():
+    if current_user.role != 'admin':
+        return render_template("message.html", message='Not Authorised')
     value = request.form['node']
 
     if not value:

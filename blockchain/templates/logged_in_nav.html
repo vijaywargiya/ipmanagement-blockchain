@@ -115,12 +115,14 @@
                     <span class="nav-link-text">New Transaction</span>
                 </a>
             </li>
+            {% if logged_in_user.role == 'admin' %}
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title=" NewTransactions">
                 <a class="nav-link" href="/users">
                     <i class="fa fa-fw  fa-users"></i>
                     <span class="nav-link-text">Users</span>
                 </a>
             </li>
+            {% endif %}
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title=" NewTransactions">
                 <a class="nav-link" href="/properties">
                     <i class="fa fa-fw fa-folder-o"></i>
@@ -133,10 +135,12 @@
                     <span class="nav-link-text">Transactions</span>
                 </a>
             </li>
+            {% if logged_in_user.role == 'admin' %}
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title=" NewTransactions">
                 <a class="nav-link" style="cursor:pointer;" data-toggle="modal" data-target="#exampleModalnode">
                     <i class="fa fa-fw fa-sign-out"></i>Register Node</a>
             </li>
+            {% endif %}
         </ul>
         <ul class="navbar-nav sidenav-toggler">
             <li class="nav-item">
