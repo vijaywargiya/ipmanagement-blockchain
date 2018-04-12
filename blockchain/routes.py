@@ -147,6 +147,8 @@ def user_properties():
 @login_required
 def properties(token: str = ''):
     from blockchain.api.models import Property
+    data = []
+    property_in_chain = blockchain.get_unique_tokens()
     if request.method == 'POST':
         property_details = Property.query.filter(Property.name.contains(request.form['search']))
         count = [item for item in property_details]
@@ -156,9 +158,14 @@ def properties(token: str = ''):
         if token != '':
             property_details = Property.query.filter_by(token=token)
         else:
-            property_details = Property.query.all()
-    data = []
-    property_in_chain = blockchain.get_unique_tokens()
+            for token in property_in_chain:
+                property_details = Property.query.filter_by(token=token).first()
+                try:
+                    properties.append(
+                        {'token': property_details.token, 'name': property_details.name, 'details': property_details.body})
+                except Exception:
+                    properties.append({'token': token, 'name': '', 'details': ''})
+            return properties
     for property in property_details:
         if property.token not in property_in_chain:
             continue
