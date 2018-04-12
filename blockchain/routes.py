@@ -161,11 +161,11 @@ def properties(token: str = ''):
             for token in property_in_chain:
                 property_details = Property.query.filter_by(token=token).first()
                 try:
-                    properties.append(
+                    data.append(
                         {'token': property_details.token, 'name': property_details.name, 'details': property_details.body})
                 except Exception:
-                    properties.append({'token': token, 'name': '', 'details': ''})
-            return properties
+                    data.append({'token': token, 'name': '', 'details': ''})
+            return render_template('properties.html', properties=data, form=form)
     for property in property_details:
         if property.token not in property_in_chain:
             continue
