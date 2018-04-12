@@ -131,8 +131,12 @@ def user_properties():
     properties = []
     for token in data:
         property_details = Property.query.filter_by(token=token).first()
-        properties.append(
-            {'token': property_details.token, 'name': property_details.name, 'details': property_details.body})
+        if property_details:
+            properties.append(
+                {'token': property_details.token, 'name': property_details.name, 'details': property_details.body})
+        else:
+            properties.append({'token': token, 'name': '', 'details': ''})
+
     properties = json.dumps(properties)
     return render_template('user_properties.html', data=properties)
 
