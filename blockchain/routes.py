@@ -166,6 +166,7 @@ def properties(token: str = ''):
                         {'token': property_details.token, 'name': property_details.name, 'details': property_details.body})
                 except Exception:
                     data.append({'token': token, 'name': '', 'details': ''})
+            data = json.dumps(data)
             return render_template('properties.html', properties=data, form=form)
     for property in property_details:
         if property.token not in property_in_chain:
