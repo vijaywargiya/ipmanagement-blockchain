@@ -148,6 +148,7 @@ def user_properties():
 def properties(token: str = ''):
     from blockchain.api.models import Property
     data = []
+    form = MessagesForm()
     property_in_chain = blockchain.get_unique_tokens()
     if request.method == 'POST':
         property_details = Property.query.filter(Property.name.contains(request.form['search']))
@@ -171,7 +172,6 @@ def properties(token: str = ''):
             continue
         data.append({'id': property.id, 'token': property.token, 'name': property.name, 'body': property.body})
     data = json.dumps(data)
-    form = MessagesForm()
     return render_template('properties.html', properties=data, form=form)
 
 
