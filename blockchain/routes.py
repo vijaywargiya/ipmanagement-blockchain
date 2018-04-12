@@ -163,7 +163,7 @@ def properties(token: str = ''):
                 property_details = Property.query.filter_by(token=token).first()
                 try:
                     data.append(
-                        {{'id': property_details.id, 'token': token, 'name': property_details.name, 'body': property_details.body})
+                        {'id': property_details.id, 'token': token, 'name': property_details.name, 'body': property_details.body})
                 except Exception:
                     data.append({'id': '', 'token': token, 'name': '', 'body': ''})
             data = json.dumps(data)
