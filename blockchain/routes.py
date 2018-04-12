@@ -131,10 +131,10 @@ def user_properties():
     properties = []
     for token in data:
         property_details = Property.query.filter_by(token=token).first()
-        if property_details:
+        try:
             properties.append(
                 {'token': property_details.token, 'name': property_details.name, 'details': property_details.body})
-        else:
+        except Exception:
             properties.append({'token': token, 'name': '', 'details': ''})
 
     properties = json.dumps(properties)
