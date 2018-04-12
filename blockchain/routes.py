@@ -258,7 +258,6 @@ def new_transaction_screen():
 
 
 @app.route('/chain', methods=['GET'])
-@check_address
 def full_chain():
     response = {
         'chain': blockchain.chain,
