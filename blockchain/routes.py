@@ -163,9 +163,9 @@ def properties(token: str = ''):
                 property_details = Property.query.filter_by(token=token).first()
                 try:
                     data.append(
-                        {'token': property_details.token, 'name': property_details.name, 'details': property_details.body})
+                        {{'id': property_details.id, 'token': token, 'name': property_details.name, 'body': property_details.body})
                 except Exception:
-                    data.append({'token': token, 'name': '', 'details': ''})
+                    data.append({'id': '', 'token': token, 'name': '', 'body': ''})
             data = json.dumps(data)
             return render_template('properties.html', properties=data, form=form)
     for property in property_details:
