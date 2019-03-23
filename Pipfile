@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[requires]
+python_version = "3.7"
+
+[packages]
+"psycopg2-binary" = "*"
+django-heroku = "*"
+gunicorn = "*"
+django-rest-framework = "*"
+instagramapi = "*"
+django-extensions = "*"
+django-rest-auth = "*"
+argon2-cffi = "*"
+djangorestframework-jwt = "*"
+django-cors-headers = "*"
+
+[dev-packages]
