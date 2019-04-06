@@ -1,5 +1,6 @@
 from argon2 import PasswordHasher
-from django.contrib.auth.models import User
+
+from ipmanagement.models import EmailAuthModel
 
 
 class ArgonHash:
@@ -21,11 +22,11 @@ class HashOperator:
         except:
             return False
 
-    def create_hash_for_user(self, user: User) -> ArgonHash:
+    def create_hash_for_user(self, user: EmailAuthModel) -> ArgonHash:
         user_string = str(user.id)
         return self.hash(user_string)
 
-    def validate_user(self, user: User, argon_hash: str) -> bool:
+    def validate_user(self, user: EmailAuthModel, argon_hash: str) -> bool:
         if not user:
             return False
         user_string = str(user.id)

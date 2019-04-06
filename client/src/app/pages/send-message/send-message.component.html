@@ -1,0 +1,52 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row mt-12">
+    <div class="col-xl-12 mb-12 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3>New Message</h3>
+            </div>
+            <div class="col text-right">
+              {{id}}
+            </div>
+          </div>
+        </div>
+        <div class="card-body px-lg-5 py-lg-5">
+          <form role="form" [formGroup]="messageForm" (ngSubmit)="submitForm()">
+            <div class="form-group mb-3">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                </div>
+                <input class="form-control"  formControlName="body" placeholder="Message Body" type="text">
+              </div>
+            </div>
+
+            <div class="row align-items-center">
+              <div class="col">
+
+                <button routerLink="/property"  class="btn btn-outline-secondary btn-lg">Cancel</button>
+
+              </div>
+              <div class="col text-right">
+
+                <button class="btn btn-lg btn-primary pull-xs-right" type="submit">
+                  Submit
+                </button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

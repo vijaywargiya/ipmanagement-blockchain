@@ -6,12 +6,18 @@ from urllib.parse import urlparse
 import requests
 from argon2 import PasswordHasher
 from argon2.exceptions import VerificationError
+from django.core.serializers.json import DjangoJSONEncoder
+
+
+class TransactionType:
+    ip = 'ip'
+    coin = 'coin'
 
 
 class BlockChain:
-    chain = []
 
     def __init__(self):
+        self.chain = []
         self.current_transactions = []
         self.nodes = set()
         self.new_block(previous_hash='1', proof=100)
@@ -114,26 +120,44 @@ class BlockChain:
         self.chain.append(block)
         return block
 
-    def new_transaction(self, sender: str, recipient: str, token: int):
+    def new_property_transaction(self, sender: str, recipient: str, property_id: int):
         """
         Creates a new transaction to go into the next mined Block
 
         :param sender: Address of the Sender
         :param recipient: Address of the Recipient
-        :param token: Token of the property
+        :param property_id: Token of the property
         :return: The index of the Block that will hold this transaction
         """
         self.current_transactions.append({
+            'type': TransactionType.ip,
             'sender': sender,
             'recipient': recipient,
-            'token': token,
+            'token': property_id,
+        })
+        return self.last_block['index'] + 1
+
+    def new_coin_transaction(self, sender: str, recipient: str, amount: int):
+        """
+        Creates a new transaction to go into the next mined Block
+
+        :param sender: Address of the Sender
+        :param recipient: Address of the Recipient
+        :param amount: Token of the property
+        :return: The index of the Block that will hold this transaction
+        """
+        self.current_transactions.append({
+            'type': TransactionType.coin,
+            'sender': sender,
+            'recipient': recipient,
+            'token': amount,
         })
 
         return self.last_block['index'] + 1
 
     def find_path(self, property_id: int):
         path = []
-        for transaction in self.each_transaction():
+        for transaction in self.each_property_transaction():
             if transaction['token'] == property_id:
                 path.append(transaction)
         return path
@@ -160,7 +184,7 @@ class BlockChain:
         """
 
         # We must make sure that the Dictionary is Ordered, or we'll have inconsistent hashes
-        block_string = json.dumps(block, sort_keys=True).encode()
+        block_string = json.dumps(block, sort_keys=True, cls=DjangoJSONEncoder).encode()
         return hashlib.sha256(block_string).hexdigest()
 
     def proof_of_work(self, last_block):
@@ -198,7 +222,14 @@ class BlockChain:
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == "0000"
 
-    def each_transaction(self) -> dict:
-        for block in self.chain + [{'transactions': self.current_transactions}]:
+    def each_coin_transaction(self) -> dict:
+        for block in self.chain:
             for transaction in block['transactions']:
-                yield transaction
+                if transaction['type'] == TransactionType.coin:
+                    yield transaction
+
+    def each_property_transaction(self) -> dict:
+        for block in self.chain:
+            for transaction in block['transactions']:
+                if transaction['type'] == TransactionType.ip:
+                    yield transaction

@@ -1,0 +1,88 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 mb-12 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-header bg-transparent border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h2 class="mb-0">Received Messages</h2>
+            </div>
+          </div>
+        </div>
+        <div class="card-body px-lg-5 py-lg-5">
+
+          <div class="table-responsive">
+          <table cdk-table [dataSource]="this.receivedTableData" class="table align-items-center table-flush">
+
+            <ng-container cdkColumnDef="id">
+              <th cdk-header-cell *cdkHeaderCellDef>Id</th>
+              <td cdk-cell *cdkCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
+            <ng-container cdkColumnDef="body">
+              <th cdk-header-cell *cdkHeaderCellDef>Body</th>
+              <td cdk-cell *cdkCellDef="let element"> {{element.body}} </td>
+            </ng-container>
+
+
+            <ng-container cdkColumnDef="actions">
+              <th cdk-header-cell *cdkHeaderCellDef>Actions</th>
+              <td cdk-cell *cdkCellDef="let element">
+                <button class="btn btn-sm btn-outline-secondary" (click)="respond(element.id)">Respond
+                </button>
+              </td>
+            </ng-container>
+
+            <tr cdk-header-row *cdkHeaderRowDef="this.rDisplayedColumns"></tr>
+            <tr cdk-row *cdkRowDef="let row; columns: this.rDisplayedColumns"></tr>
+
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br><br>
+  <div class="row">
+    <div class="col-xl-12 mb-12 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-header bg-transparent  border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h2 class="mb-0">Sent Messages</h2>
+            </div>
+          </div>
+        </div>
+        <div class="card-body px-lg-5 py-lg-5">
+
+          <div class="table-responsive">
+          <table cdk-table [dataSource]="this.sentTableData" class="table align-items-center table-flush">
+
+            <ng-container cdkColumnDef="id">
+              <th cdk-header-cell *cdkHeaderCellDef>Id</th>
+              <td cdk-cell *cdkCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
+            <ng-container cdkColumnDef="body">
+              <th cdk-header-cell *cdkHeaderCellDef>Body</th>
+              <td cdk-cell *cdkCellDef="let element"> {{element.body}} </td>
+            </ng-container>
+
+
+            <tr cdk-header-row *cdkHeaderRowDef="this.sDisplayedColumns"></tr>
+            <tr cdk-row *cdkRowDef="let row; columns: this.sDisplayedColumns"></tr>
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

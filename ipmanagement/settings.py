@@ -86,6 +86,14 @@ WSGI_APPLICATION = 'ipmanagement.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
+    #     'default':  {
+    #         'ENGINE': 'django.db.backends.postgresql',
+    #         'NAME': 'd7f5u02tba7ai',
+    #         'USER': 'wrjfcrtpoouzpw',
+    #         'PASSWORD': 'e07c9dd17fe55957eaa1fb3856dd596f335c7cbff772edaaa0857c82e099b7df',
+    #         'HOST': 'ec2-54-247-70-127.eu-west-1.compute.amazonaws.com',
+    #         'PORT': '5432',
+    # },
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
@@ -158,6 +166,9 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
 }
+
+
+AUTH_USER_MODEL = "ipmanagement.EmailAuthModel"
 
 
 CORS_ORIGIN_ALLOW_ALL = True

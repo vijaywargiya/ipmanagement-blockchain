@@ -1,0 +1,61 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row mt-12">
+    <div class="col-xl-12 mb-12 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-header  border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0" *ngIf="data_type=='owned'">Self Transactions</h3>
+              <h3 class="mb-0" *ngIf="data_type=='all'">All Transactions</h3>
+            </div>
+            <div class="col text-right">
+              <button class="btn btn-sm btn-outline-secondary" (click)="getAllTransactions()"
+                      *ngIf="data_type=='owned'">
+                Display All Transactions
+              </button>
+              <button class="btn btn-sm btn-outline-secondary" (click)="getSelfTransactions()" *ngIf="data_type=='all'">
+                Display Self Transactions
+              </button>
+              <button routerLink="/transaction/create" class="btn btn-primary">New Transaction</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body px-lg-5 py-lg-5">
+          <div class="table-responsive">
+            <!-- Projects table -->
+            <table cdk-table [dataSource]="this.tableData" class="table align-items-center table-flush">
+
+              <ng-container cdkColumnDef="token">
+                <th cdk-header-cell *cdkHeaderCellDef>Property ID</th>
+                <td cdk-cell *cdkCellDef="let element"> {{element.token}} </td>
+              </ng-container>
+
+              <ng-container cdkColumnDef="sender">
+                <th cdk-header-cell *cdkHeaderCellDef>Sender</th>
+                <td cdk-cell *cdkCellDef="let element"> {{element.sender}} </td>
+              </ng-container>
+
+              <ng-container cdkColumnDef="recipient">
+                <th cdk-header-cell *cdkHeaderCellDef>Recipient</th>
+                <td cdk-cell *cdkCellDef="let element"> {{element.recipient}} </td>
+              </ng-container>
+
+
+              <tr cdk-header-row *cdkHeaderRowDef="this.displayedColumns"></tr>
+              <tr cdk-row *cdkRowDef="let row; columns: this.displayedColumns"></tr>
+
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

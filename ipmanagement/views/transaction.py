@@ -4,24 +4,25 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 from ipmanagement.serializers import TransactionCreateSerializer
-from ipmanagement.views import property_backend
+from ipmanagement.views import backend
 
 
 class TransactionView(ViewSet):
     def create(self, request: Request) -> Response:
-        serializer = TransactionCreateSerializer(request.POST)
+        serializer = TransactionCreateSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=400)
-        property_id = request.POST('property_id')
-        recipient = request.POST('recipient')
-        property_backend.new_transaction(user=request.user, property_id=property_id, receipient=recipient)
+        request_data = serializer.validated_data
+        property_id = int(request_data['property'])
+        recipient = request_data['recipient']
+        backend.new_transaction(user=request.user, property_id=property_id, recipient=recipient)
         return Response(data="Transaction Successful")
 
     def list(self, request: Request) -> Response:
-        all_transactions = property_backend.get_all_transactions()
+        all_transactions = backend.get_all_transactions()
         return Response(data=all_transactions)
 
     @action(url_path='self', url_name='self', detail=False)
     def self(self, request: Request) -> Response:
-        self_transactions = property_backend.get_transactions_for_user(user=request.user)
+        self_transactions = backend.get_transactions_for_user(user=request.user)
         return Response(data=self_transactions)

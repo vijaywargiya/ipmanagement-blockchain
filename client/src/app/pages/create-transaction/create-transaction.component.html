@@ -1,0 +1,56 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row mt-12">
+    <div class="col-xl-12 mb-12 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3>New Transaction</h3>
+            </div>
+            <div class="col text-right">
+              {{ transactionForm.status }}
+            </div>
+          </div>
+        </div>
+        <div class="card-body px-lg-5 py-lg-5">
+          <form [formGroup]="transactionForm" (ngSubmit)="submitForm()">
+
+            <div class="form-group">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                </div>
+                <select class="form-control" formControlName="property">
+                  <option value="" disabled selected>Select Property</option>
+                  <option *ngFor="let property of properties" [value]="property.id">{{property.name}}</option>
+                </select>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                </div>
+                <input class="form-control" formControlName="recipient" placeholder="Receiver"/>
+              </div>
+            </div>
+
+
+            <button class="btn btn-lg btn-primary pull-xs-right" type="submit">
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

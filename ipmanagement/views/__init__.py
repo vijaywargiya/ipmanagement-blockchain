@@ -1,5 +1,17 @@
+from ipmanagement.backend import Backend
 
-from ipmanagement.backend import PropertyBackend, CoinBackend
+backend = Backend()
 
-property_backend = PropertyBackend()
-coin_backend = CoinBackend()
+MINE_SEMAPHORE = 1
+
+
+def wait_mine():
+    global MINE_SEMAPHORE
+    while MINE_SEMAPHORE <= 0:
+        pass
+    MINE_SEMAPHORE -= 1
+
+
+def release_mine():
+    global MINE_SEMAPHORE
+    MINE_SEMAPHORE += 1

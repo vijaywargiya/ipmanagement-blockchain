@@ -13,13 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from rest_framework.routers import SimpleRouter
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
-from ipmanagement.views.mine import mine_view
+from ipmanagement.views.message import MessageView
+from ipmanagement.views.mining import MiningView
+from ipmanagement.views.views import user, register
 from ipmanagement.views.property import PropertyView
 from ipmanagement.views.transaction import TransactionView
 
@@ -27,12 +30,18 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html')),
     path('dashboard/', TemplateView.as_view(template_name='index.html')),
     path('admin/', admin.site.urls),
-    path('mine', mine_view),
+    path('register', register),
+    path('user', user),
     path(r'api-token-auth/', obtain_jwt_token),
     path(r'api-token-refresh/', refresh_jwt_token),
+    url(r'login/', RedirectView.as_view(url='/')),
+    url(r'^assets/$', RedirectView.as_view(url='static/')),
+
 ]
 router = SimpleRouter(trailing_slash=False)
 router.register("api/property", PropertyView, base_name="property")
 router.register("api/transaction", TransactionView, base_name="transaction")
+router.register("api/message", MessageView, base_name="message")
+router.register("api/mine", MiningView, base_name="mining")
 
 urlpatterns += router.urls
