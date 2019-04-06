@@ -16,5 +16,6 @@ django-rest-auth = "*"
 argon2-cffi = "*"
 djangorestframework-jwt = "*"
 django-cors-headers = "*"
+requests = "*"
 
 [dev-packages]
