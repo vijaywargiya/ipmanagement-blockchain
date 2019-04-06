@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {UserService} from './user.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -12,11 +13,9 @@ export class AppComponent {
 
   public user: any;
 
-  constructor(public userService: UserService, public router: Router) {
+  constructor(public userService: UserService, public router: Router, public titleService: Title) {
+    this.titleService.setTitle('Tokyo');
   }
 
-  ngOnInit() {
-
-  }
 
 }
