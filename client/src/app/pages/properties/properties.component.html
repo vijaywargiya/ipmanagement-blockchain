@@ -1,0 +1,70 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row mt-12">
+    <div class="col-xl-12 mb-12 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-header  border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0" *ngIf="data_type=='owned'">Owned Properties</h3>
+              <h3 class="mb-0" *ngIf="data_type=='all'">All Properties</h3>
+            </div>
+            <div class="col text-right">
+              <button class="btn btn-sm btn-outline-secondary" (click)="getAllProperties()" *ngIf="data_type=='owned'">
+                Display All Properties
+              </button>
+              <button class="btn btn-sm btn-outline-secondary" (click)="getSelfProperties()" *ngIf="data_type=='all'">
+                Display Owned Properties
+              </button>
+              <button routerLink="/property/create" class="btn btn-primary">New Property</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body px-lg-5 py-lg-5">
+          <div class="table-responsive">
+            <!-- Projects table -->
+            <table cdk-table [dataSource]="this.tableData" class="table align-items-center table-flush">
+
+              <ng-container cdkColumnDef="id">
+                <th cdk-header-cell *cdkHeaderCellDef>Id</th>
+                <td cdk-cell *cdkCellDef="let element"> {{element.id}} </td>
+              </ng-container>
+
+              <ng-container cdkColumnDef="name">
+                <th cdk-header-cell *cdkHeaderCellDef>Name</th>
+                <td cdk-cell *cdkCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+
+              <ng-container cdkColumnDef="description">
+                <th cdk-header-cell *cdkHeaderCellDef>Description</th>
+                <td cdk-cell *cdkCellDef="let element"> {{element.description}} </td>
+              </ng-container>
+
+              <ng-container cdkColumnDef="actions">
+                <th cdk-header-cell *cdkHeaderCellDef>Actions</th>
+                <td cdk-cell *cdkCellDef="let element">
+                  <button class="btn btn-sm btn-outline-secondary" (click)="viewDetails(element.id)">View Details
+                  </button>
+                  <button class="btn btn-sm btn-outline-secondary" (click)="messageOwner(element.id)">Message
+                    Owner
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr cdk-header-row *cdkHeaderRowDef="this.displayedColumns"></tr>
+              <tr cdk-row *cdkRowDef="let row; columns: this.displayedColumns"></tr>
+
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

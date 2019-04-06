@@ -1,1 +1,1 @@
-web: python blockchain/__init__.py
+web: gunicorn ipmanagement.wsgi
