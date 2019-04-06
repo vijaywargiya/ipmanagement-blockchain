@@ -36,7 +36,7 @@ urlpatterns = [
     path(r'api-token-refresh/', refresh_jwt_token),
     url(r'login/', RedirectView.as_view(url='/')),
     url(r'^assets/$', RedirectView.as_view(url='static/')),
-
+    url(r'^', TemplateView.as_view(template_name='index.html'), name='all')
 ]
 router = SimpleRouter(trailing_slash=False)
 router.register("api/property", PropertyView, base_name="property")

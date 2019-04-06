@@ -24,7 +24,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = "@%i$qjyx6i^h!m+$w%yzzoljyq$&61dr*ahyhu($1klum(!sia"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Application definition
 
@@ -66,7 +66,7 @@ ROOT_URLCONF = 'ipmanagement.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'staticfiles')],
+        'DIRS': [os.path.join(BASE_DIR, 'ipmanagement/../staticfiles')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,14 +86,6 @@ WSGI_APPLICATION = 'ipmanagement.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    #     'default':  {
-    #         'ENGINE': 'django.db.backends.postgresql',
-    #         'NAME': 'd7f5u02tba7ai',
-    #         'USER': 'wrjfcrtpoouzpw',
-    #         'PASSWORD': 'e07c9dd17fe55957eaa1fb3856dd596f335c7cbff772edaaa0857c82e099b7df',
-    #         'HOST': 'ec2-54-247-70-127.eu-west-1.compute.amazonaws.com',
-    #         'PORT': '5432',
-    # },
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
@@ -136,13 +128,13 @@ ALLOWED_HOSTS = ['*']
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'ipmanagement/../staticfiles')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_ROOT, 'staticfiles'),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(PROJECT_ROOT, 'static'),
+# ]
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
@@ -170,12 +162,12 @@ JWT_AUTH = {
 
 AUTH_USER_MODEL = "ipmanagement.EmailAuthModel"
 
-
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = (
-    'localhost:4200',
-)
-CORS_ORIGIN_REGEX_WHITELIST = (
-    'localhost:4200',
-)
+#
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_CREDENTIALS = True
+# CORS_ORIGIN_WHITELIST = (
+#     'localhost:4200',
+# )
+# CORS_ORIGIN_REGEX_WHITELIST = (
+#     'localhost:4200',
+# )
