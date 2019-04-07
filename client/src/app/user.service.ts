@@ -34,11 +34,11 @@ export class UserService {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
 
-    if (!cookieService.check('token')) {
-      this.refreshToken();
+    if (cookieService.check('token')) {
+      this.token = this.cookieService.get('token');
+      this.get_user_details();
     }
-    this.token = this.cookieService.get('token');
-    this.get_user_details();
+
   }
 
   // Uses http.post() to get an auth token from djangorestframework-jwt endpoint
