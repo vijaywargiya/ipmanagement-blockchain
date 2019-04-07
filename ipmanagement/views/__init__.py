@@ -15,3 +15,5 @@ def wait_mine():
 def release_mine():
     global MINE_SEMAPHORE
     MINE_SEMAPHORE += 1
+
+from rest_framework import status

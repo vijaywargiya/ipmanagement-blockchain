@@ -22,12 +22,12 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
 from ipmanagement.views.message import MessageView
 from ipmanagement.views.mining import MiningView
-from ipmanagement.views.views import user, register
 from ipmanagement.views.property import PropertyView
 from ipmanagement.views.transaction import TransactionView
+from ipmanagement.views.views import user, register, redirect_view
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='index.html')),
+    path('', TemplateView.as_view(template_name='index.html'), name='home'),
     path('dashboard/', TemplateView.as_view(template_name='index.html')),
     path('admin/', admin.site.urls),
     path('register', register),
@@ -35,8 +35,7 @@ urlpatterns = [
     path(r'api-token-auth/', obtain_jwt_token),
     path(r'api-token-refresh/', refresh_jwt_token),
     url(r'login/', RedirectView.as_view(url='/')),
-    url(r'^assets/$', RedirectView.as_view(url='static/')),
-    url(r'^', TemplateView.as_view(template_name='index.html'), name='all')
+    url(r'^assets/*', redirect_view),
 ]
 router = SimpleRouter(trailing_slash=False)
 router.register("api/property", PropertyView, base_name="property")

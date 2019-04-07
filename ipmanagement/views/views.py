@@ -1,13 +1,15 @@
 import uuid
 
-from django.contrib.auth.models import User, AnonymousUser
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.views.generic import RedirectView
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.request import Request
 from rest_framework.response import Response
 
 from ipmanagement.models import EmailAuthModel
 from ipmanagement.serializers import UserSerializer, UserRegistrationSerializer
-from ipmanagement.views import backend, backend
+from ipmanagement.views import backend
 
 
 @api_view(http_method_names=['GET'])
@@ -30,3 +32,9 @@ def register(request: Request):
     new_user = EmailAuthModel.objects.create_user(username=username, email=request_data['email'],
                                                   password=request_data['password'], first_name=request_data['name'])
     return Response(data=f"User {new_user.username} registered successfully")
+
+
+def redirect_view(request):
+    path = request.get_full_path()
+    response = redirect(f'/static{path}')
+    return response

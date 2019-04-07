@@ -8,14 +8,14 @@ python_version = "3.7"
 
 [packages]
 "psycopg2-binary" = "*"
-django-heroku = "*"
 gunicorn = "*"
-django-rest-framework = "*"
 django-extensions = "*"
 django-rest-auth = "*"
 argon2-cffi = "*"
 djangorestframework-jwt = "*"
-django-cors-headers = "*"
 requests = "*"
+django = "*"
+django-heroku = "*"
+djangorestframework = "==3.9.2"
 
 [dev-packages]

@@ -9,6 +9,7 @@ from ipmanagement.views import backend
 
 
 class PropertyView(ViewSet):
+
     def create(self, request: Request) -> Response:
         serializer = PropertyCreateSerializer(data=request.data)
         if not serializer.is_valid():
