@@ -16,6 +16,6 @@ djangorestframework-jwt = "*"
 requests = "*"
 django = "*"
 django-heroku = "*"
-djangorestframework = "==3.9.2"
+djangorestframework = "==3.11.2"
 
 [dev-packages]
